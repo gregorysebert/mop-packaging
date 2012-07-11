@@ -23,6 +23,7 @@
 package org.exoplatform.management.packaging;
 
 import org.exoplatform.management.packaging.operations.PackagingSiteReadResource;
+import org.exoplatform.management.packaging.operations.PackagingSiteExportResource;
 import org.gatein.management.api.ComponentRegistration;
 import org.gatein.management.api.ManagedDescription;
 import org.gatein.management.api.ManagedResource;
@@ -39,64 +40,14 @@ public class PackagingManagementExtension implements ManagementExtension
    @Override
    public void initialize(ExtensionContext context)
    {
-	   	ComponentRegistration registration = context.registerManagedComponent("mop-package");
+	   	ComponentRegistration registration = context.registerManagedComponent("package");
 
 	   	ManagedResource.Registration extension = registration.registerManagedResource(description("responsible for generating platform extension"));
 
-	   	extension.registerOperationHandler(OperationNames.READ_RESOURCE, new PackagingSiteReadResource(), description("Lists available contents sites"));
-//
-//      ManagedResource.Registration sitetypes = mop.registerSubResource("{site-type}sites", description("Management resource responsible for handling management operations on a specific site type for a portal."));
-//      sitetypes.registerOperationHandler(OperationNames.READ_RESOURCE, new SiteTypeReadResource(), description("Lists available sites for a given site type."));
-//
-//      ManagedResource.Registration sites = sitetypes.registerSubResource("{site-name: .*}", description("Management resource responsible for handling management operations on a specific site."));
-//      sites.registerOperationHandler(OperationNames.READ_RESOURCE, new SiteReadResource(), description("Lists available resources for a given site (ie pages, navigation, site layout)"));
-//
-//      // Site Layout management
-//      siteLayoutManagementRegistration(sites);
-//
-//      // Page management
-//      pageManagementRegistration(sites);
-//
-//      // Navigation management
-//      navigationManagementRegistration(sites);
-   }
+	   	extension.registerOperationHandler(OperationNames.READ_RESOURCE, new PackagingSiteReadResource(), description("Hello World :-)"));
 
-//   private void siteLayoutManagementRegistration(ManagedResource.Registration sites)
-//   {
-//      // This allows us to filter based on path template site-layout.
-//      ManagedResource.Registration siteLayout = sites.registerSubResource("{site-layout: portal|group|user}", description("Management resource responsible for handling management operations for a site's layout."));
-//      siteLayout.registerOperationHandler(OperationNames.READ_RESOURCE, new SiteLayoutReadResource(), description("The site layout resource."));
-//      siteLayout.registerOperationHandler(OperationNames.READ_CONFIG_AS_XML, new SiteLayoutReadConfigAsXml(), description("Reads site layout data for a specific site as configuration xml."));
-//      siteLayout.registerOperationHandler(OperationNames.EXPORT_RESOURCE, new SiteLayoutExportResource(), description("Exports site layout configuration xml as a zip file."));
-//   }
-//
-//   private void pageManagementRegistration(ManagedResource.Registration sites)
-//   {
-//      // Pages management resource registration
-//      ManagedResource.Registration pages = sites.registerSubResource("pages", description("Management resource responsible for handling management operations for pages of a site."));
-//
-//      // Pages management operations
-//      pages.registerOperationHandler(OperationNames.READ_RESOURCE, new PageReadResource(), description("Lists available pages at a specified address."), true);
-//      pages.registerOperationHandler(OperationNames.READ_CONFIG_AS_XML, new PageReadConfigAsXml(), description("Reads pages as configuration xml at a specified address."), true);
-//      pages.registerOperationHandler(OperationNames.EXPORT_RESOURCE, new PageExportResource(), description("Exports pages configuration xml as a zip file."), true);
-//
-//      // Page name management resource registration
-//      pages.registerSubResource("{page-name}", description("Page resource representing an individual page of a site."));
-//   }
-//
-//   private void navigationManagementRegistration(ManagedResource.Registration sites)
-//   {
-//      // Navigation management resource registration
-//      ManagedResource.Registration navigation = sites.registerSubResource("navigation", description("Management resource responsible for handling management operations on a sites navigation."));
-//
-//      // Navigation management operations
-//      navigation.registerOperationHandler(OperationNames.READ_RESOURCE, new NavigationReadResource(), description("Available navigation nodes at the specified address."), true);
-//      navigation.registerOperationHandler(OperationNames.READ_CONFIG_AS_XML, new NavigationReadConfigAsXml(), description("Reads navigation as configuration xml at a specified address."), true);
-//      navigation.registerOperationHandler(OperationNames.EXPORT_RESOURCE, new NavigationExportResource(), description("Exports navigation configuration xml as a zip file."), true);
-//
-//      // Navigation node management resource registration
-//      navigation.registerSubResource("{nav-uri: .*}", description("Management resource responsible for handling management operations on specific navigation nodes."));
-//   }
+        extension.registerOperationHandler(OperationNames.EXPORT_RESOURCE, new PackagingSiteExportResource(), description("Export as platform extension"));
+   }
 
    @Override
    public void destroy()
