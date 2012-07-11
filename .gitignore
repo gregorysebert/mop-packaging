@@ -1,2 +1,7 @@
 .DS_Store
 .idea*
+gatein-management-extension.iml
+target
+.classpath
+.project
+.settings
