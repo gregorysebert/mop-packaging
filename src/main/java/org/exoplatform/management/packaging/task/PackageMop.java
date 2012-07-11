@@ -12,12 +12,10 @@ import org.exoplatform.management.packaging.Util.PackagingUtil;
  */
 public class PackageMop {
 
-	public PackageMop(String zipPath, ResultHandler resultHandler) {
+	public PackageMop(String zipPath, File tmpFolder) {
 		try {
-			String tempFolder = System.getProperty("java.io.tmpdir");
-			File temp = new File(tempFolder + "/exploded-extension");
-			temp.mkdir();
-            PackagingUtil.extractZip(zipPath, temp);
+			
+            PackagingUtil.extractZip(zipPath, tmpFolder);
 
 
 		} catch (FileNotFoundException ex) {
