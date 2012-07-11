@@ -1,5 +1,6 @@
 package org.exoplatform.management.packaging.task;
 
+<<<<<<< HEAD
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -10,6 +11,8 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
 import org.gatein.management.api.operation.model.ExportResourceModel;
+=======
+>>>>>>> manage options
 import org.gatein.management.api.operation.ResultHandler;
 
 /**
@@ -24,6 +27,7 @@ public class PackageMop {
 			File temp = new File(tempFolder + "/exploded-extension");
 			temp.mkdir();
 
+<<<<<<< HEAD
 			extractZip(zipPath, temp);
 		} catch (FileNotFoundException ex) {
 			ex.printStackTrace();
@@ -62,5 +66,8 @@ public class PackageMop {
 
 		zipInputStream.close();
 	}
+=======
+    }
+>>>>>>> manage options
 
 }

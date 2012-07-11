@@ -27,15 +27,23 @@ public class ExtensionExportResource implements OperationHandler
         try {
 
             OperationAttributes myAttributes = operationContext.getAttributes();
-            String[] options = myAttributes.getValue("filter").split(":");
+            String[] options = myAttributes.getValue("filter").split(",");
 
-            if options packageMop
-                    PackageMop packageMop = new PackageMop("blabla.zip",resultHandler);
+            for (int i=0; i<options.length;i++)
+                {
+                   String[] option = options[i].split(":");
 
-            etc.....
+                   if (option.length == 2)
+                   {
+                        if (option[0].equals("mop")) {PackageMop packageMop = new PackageMop(option[1],resultHandler);}
+                        else if (option[0].equals("content"))   {PackageContent packageMop = new PackageContent(option[1],resultHandler);}
+                        else throw new OperationException(OperationNames.EXPORT_RESOURCE, "Invalid option  : " + option.toString());
+                   }
+                   else throw new OperationException(OperationNames.EXPORT_RESOURCE, "Invalid option  : " + option.toString());
+                   }
 
         } catch(Exception e) {
-            throw new OperationException(OperationNames.EXPORT_RESOURCE, "Unable to create extension : " + e.getMessage());
+            throw new OperationException(OperationNames.EXPORT_RESOURCE, "Unable to create extension, options are missing or invalid");
         }
     }
 }
