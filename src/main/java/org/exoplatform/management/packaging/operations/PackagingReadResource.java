@@ -36,7 +36,7 @@ import org.gatein.management.api.operation.model.ReadResourceModel;
  * @author <a href="mailto:thomas.delhomenie@exoplatform.com">Thomas Delhoménie</a>
  * @version $Revision$
  */
-public class PackagingSiteReadResource implements OperationHandler
+public class PackagingReadResource implements OperationHandler
 {
    @Override
    public void execute(OperationContext operationContext, ResultHandler resultHandler) throws OperationException

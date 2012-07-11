@@ -4,11 +4,9 @@ import org.gatein.management.api.exceptions.OperationException;
 import org.gatein.management.api.operation.OperationContext;
 import org.gatein.management.api.operation.OperationHandler;
 import org.gatein.management.api.operation.OperationNames;
+import org.gatein.management.api.operation.OperationAttributes;
 import org.gatein.management.api.operation.ResultHandler;
-import org.gatein.management.api.operation.model.ReadResourceModel;
 
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * Created with IntelliJ IDEA.
@@ -17,15 +15,18 @@ import java.util.Set;
  * Time: 10:34
  * To change this template use File | Settings | File Templates.
  */
-public class PackagingSiteExportResource implements OperationHandler
+public class ExtensionExportResource implements OperationHandler
 {
     @Override
     public void execute(OperationContext operationContext, ResultHandler resultHandler) throws OperationException
     {
         try {
 
+            OperationAttributes myAttributes = operationContext.getAttributes();
+            System.out.println(myAttributes.getValues("modes").toString());
+
         } catch(Exception e) {
-            throw new OperationException(OperationNames.READ_RESOURCE, "Unable to create extension : " + e.getMessage());
+            throw new OperationException(OperationNames.EXPORT_RESOURCE, "Unable to create extension : " + e.getMessage());
         }
     }
 }
