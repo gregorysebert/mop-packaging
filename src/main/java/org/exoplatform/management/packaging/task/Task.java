@@ -4,6 +4,7 @@ import org.gatein.management.api.operation.model.ExportTask;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.File;
 
 /**
  * Created with IntelliJ IDEA.
@@ -12,24 +13,25 @@ import java.io.OutputStream;
  * Time: 16:11
  * To change this template use File | Settings | File Templates.
  */
-public class PackageMopTask implements ExportTask {
-    String FILE ="";
+public class Task implements ExportTask {
+    private File file = null;
+    private String pathExtension = null;
+
+    public Task(File fileXml, String pathExtension)
+    {
+       this.file = fileXml;
+       this.pathExtension = pathExtension;
+    }
 
     @Override
     public String getEntry()
     {
-        String siteType = "";
-
-        String siteName = "";
-        if (siteName.charAt(0) == '/') siteName = siteName.substring(1, siteName.length());
-
-        return new StringBuilder().
-                append(siteType).append("/").append(siteName).append("/").append(getXmlFileName()).toString();
+      return this.pathExtension;
     }
 
     protected String getXmlFileName()
     {
-        return FILE;
+        return this.file.getName();
     }
 
 
