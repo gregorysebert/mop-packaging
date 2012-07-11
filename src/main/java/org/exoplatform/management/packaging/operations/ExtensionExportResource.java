@@ -6,6 +6,10 @@ import org.gatein.management.api.operation.OperationHandler;
 import org.gatein.management.api.operation.OperationNames;
 import org.gatein.management.api.operation.OperationAttributes;
 import org.gatein.management.api.operation.ResultHandler;
+import org.exoplatform.management.packaging.task.PackageContent;
+import org.exoplatform.management.packaging.task.PackageMop;
+import org.gatein.management.api.operation.model.ExportResourceModel;
+
 
 
 /**
@@ -23,7 +27,12 @@ public class ExtensionExportResource implements OperationHandler
         try {
 
             OperationAttributes myAttributes = operationContext.getAttributes();
-            System.out.println(myAttributes.getValues("modes").toString());
+            String[] options = myAttributes.getValue("filter").split(":");
+
+            if options packageMop
+                    PackageMop packageMop = new PackageMop("blabla.zip",resultHandler);
+
+            etc.....
 
         } catch(Exception e) {
             throw new OperationException(OperationNames.EXPORT_RESOURCE, "Unable to create extension : " + e.getMessage());

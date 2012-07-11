@@ -42,11 +42,11 @@ public class PackagingReadResource implements OperationHandler
    public void execute(OperationContext operationContext, ResultHandler resultHandler) throws OperationException
    {
 	   try {
-		   Set<String> contentsSites = new HashSet<String>();
-		   contentsSites.add("hello World - ls not usefull here");
-		   resultHandler.completed(new ReadResourceModel("Available contents sites.", contentsSites));
+		   Set<String> display = new HashSet<String>();
+		   display.add("extension");
+		   resultHandler.completed(new ReadResourceModel("packaging", display));
 	   } catch(Exception e) {
-		   throw new OperationException(OperationNames.READ_RESOURCE, "Unable to retrieve the list of the contents sites : " + e.getMessage());
+		   throw new OperationException(OperationNames.READ_RESOURCE, "Unable to retrieve packaging : " + e.getMessage());
 	   }
    }
 }

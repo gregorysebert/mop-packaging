@@ -22,8 +22,9 @@
 
 package org.exoplatform.management.packaging;
 
-import org.exoplatform.management.packaging.operations.PackagingSiteReadResource;
-import org.exoplatform.management.packaging.operations.PackagingSiteExportResource;
+import org.exoplatform.management.packaging.operations.PackagingReadResource;
+import org.exoplatform.management.packaging.operations.ExtensionExportResource;
+import org.exoplatform.management.packaging.operations.ExtensionReadResource;
 import org.gatein.management.api.ComponentRegistration;
 import org.gatein.management.api.ManagedDescription;
 import org.gatein.management.api.ManagedResource;
@@ -42,11 +43,13 @@ public class PackagingManagementExtension implements ManagementExtension
    {
 	   	ComponentRegistration registration = context.registerManagedComponent("package");
 
-	   	ManagedResource.Registration extension = registration.registerManagedResource(description("responsible for generating platform extension"));
+	   	ManagedResource.Registration packageExtension = registration.registerManagedResource(description("platform extension"));
 
-	   	extension.registerOperationHandler(OperationNames.READ_RESOURCE, new PackagingSiteReadResource(), description("Hello World :-)"));
+       packageExtension.registerOperationHandler(OperationNames.READ_RESOURCE, new PackagingReadResource(), description("Hello World :-)"));
 
-        extension.registerOperationHandler(OperationNames.EXPORT_RESOURCE, new PackagingSiteExportResource(), description("Export as platform extension"));
+        ManagedResource.Registration extension = packageExtension.registerSubResource("extension", description("responsible for generating the export of the extension"));
+       extension.registerOperationHandler(OperationNames.READ_RESOURCE, new ExtensionReadResource(), description("extension"));
+       extension.registerOperationHandler(OperationNames.EXPORT_RESOURCE, new ExtensionExportResource(), description("export of the extension"));
    }
 
    @Override
