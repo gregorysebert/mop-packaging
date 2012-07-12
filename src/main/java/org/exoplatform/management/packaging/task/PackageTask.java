@@ -47,23 +47,25 @@ public class PackageTask implements ExportTask {
         ZipOutputStream zos = new ZipOutputStream(outputStream);
     	 
          browse(file, zos);
+
+        zos.close();
     }
     private void browse(File currentFile,ZipOutputStream zos) throws IOException {
 		if (currentFile.isDirectory()) {
 			File[] children = currentFile.listFiles();
+            zos.putNextEntry(new ZipEntry(currentFile.getName()));
+            zos.closeEntry();
 			for (File child : children) {
-				zos.putNextEntry(new ZipEntry(currentFile.getName()));
-	            zos.closeEntry();
-
-				browse(child, zos);
+                browse(child, zos);
 			}
+
 		} else {
 			//file is a file
 			byte[] buffer = new byte[2048];
 			FileInputStream in = new FileInputStream(currentFile);
 
             // Add ZIP entry to output stream.
-            zos.putNextEntry(new ZipEntry(currentFile.getName()));
+            zos.putNextEntry(new ZipEntry(currentFile.getPath()));
     
             // Transfer bytes from the file to the ZIP file
             int len;
@@ -78,6 +80,5 @@ public class PackageTask implements ExportTask {
 			//String filePathInExtension = currentFile.getPath().replace(tmpFolderPath, ""); 
 
 		}
-		
 	}
 }

@@ -26,6 +26,19 @@ public class PackagingUtil {
                 File newDir = new File(destFolder.getPath() + "/" + fileName);
                 newDir.mkdir();
             } else {
+                if (fileName.split("/").length > 1)
+                {
+                    String[] dirs = fileName.split("/");
+                    String tempDir = "";
+
+                    for(int i=0;i<dirs.length-1;i++)
+                    {
+                        tempDir += "/"+dirs[i];
+                    }
+
+                    File newDir = new File(destFolder.getPath() + tempDir);
+                    if (!newDir.exists()) newDir.mkdirs();
+                }
                 FileOutputStream fileoutputstream = new FileOutputStream(
                         destFolder.getPath() + "/" + fileName);
                 int n;
