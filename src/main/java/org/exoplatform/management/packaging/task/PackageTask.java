@@ -29,7 +29,7 @@ public class PackageTask implements ExportTask {
     @Override
     public String getEntry()
     {
-      return this.file.getPath();
+      return "";
     }
 
     protected String getXmlFileName()
@@ -44,17 +44,17 @@ public class PackageTask implements ExportTask {
     {
         
 
-        ZipOutputStream zos = new ZipOutputStream(outputStream);
-    	 
-         browse(file, zos);
+        File[] children = file.listFiles();
+        for (File child : children) {
+            browse(child, (ZipOutputStream)outputStream);
+		}
 
-        zos.close();
     }
     private void browse(File currentFile,ZipOutputStream zos) throws IOException {
 		if (currentFile.isDirectory()) {
 			File[] children = currentFile.listFiles();
-            zos.putNextEntry(new ZipEntry(currentFile.getName()));
-            zos.closeEntry();
+            //zos.putNextEntry(new ZipEntry(currentFile.getPath().replace(file.getPath(), "")));
+            //zos.closeEntry();
 			for (File child : children) {
                 browse(child, zos);
 			}
@@ -65,7 +65,7 @@ public class PackageTask implements ExportTask {
 			FileInputStream in = new FileInputStream(currentFile);
 
             // Add ZIP entry to output stream.
-            zos.putNextEntry(new ZipEntry(currentFile.getPath()));
+            zos.putNextEntry(new ZipEntry(currentFile.getPath().replace(file.getPath(), "")));
     
             // Transfer bytes from the file to the ZIP file
             int len;
