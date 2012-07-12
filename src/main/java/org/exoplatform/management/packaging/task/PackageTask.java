@@ -1,5 +1,6 @@
 package org.exoplatform.management.packaging.task;
 
+import org.exoplatform.management.packaging.xml.XmlConfiguration;
 import org.gatein.management.api.operation.ResultHandler;
 import org.gatein.management.api.operation.model.ExportResourceModel;
 import org.gatein.management.api.operation.model.ExportTask;
@@ -42,17 +43,21 @@ public class PackageTask implements ExportTask {
     public void export(OutputStream outputStream) throws IOException
 
     {
+
         File[] children = file.listFiles();
+
+
         for (File child : children) {
             browse(child, (ZipOutputStream)outputStream);
 		}
+        //Add xml configuration
+
 
     }
     private void browse(File currentFile,ZipOutputStream zos) throws IOException {
 		if (currentFile.isDirectory()) {
 			File[] children = currentFile.listFiles();
-            //zos.putNextEntry(new ZipEntry(currentFile.getPath().replace(file.getPath(), "")));
-            //zos.closeEntry();
+
 			for (File child : children) {
                 browse(child, zos);
 			}
@@ -74,8 +79,6 @@ public class PackageTask implements ExportTask {
             // Complete the entry
             zos.closeEntry();
             in.close();
-			
-			//String filePathInExtension = currentFile.getPath().replace(tmpFolderPath, ""); 
 
 		}
 	}
