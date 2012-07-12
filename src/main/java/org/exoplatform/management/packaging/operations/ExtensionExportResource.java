@@ -41,6 +41,21 @@ public class ExtensionExportResource implements OperationHandler
 			temp.mkdir();
 			tmpFolderPath = temp.getPath();
 			
+			
+			//create folder tree in temp folder :
+			// tmpFolder
+			//	|__WEB-INF
+			//	|	|__web.xml
+			//	|	|__conf
+			// 	|	|	|__mop
+			//	|	|	|	|__portal-configuration.xml
+			//	|	|	|	|__exportMopZip
+			// 	|	|	|__content
+			//	|	|	|	|__wcm-content-configuration.xml
+			//	|	|	|	|__exportContentZip
+			//	|	|	|__configuration.xml
+			
+			
             for (int i=0; i<options.length;i++)
                 {
                    String[] option = options[i].split(":");
