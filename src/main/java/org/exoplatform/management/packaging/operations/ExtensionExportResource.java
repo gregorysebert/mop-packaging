@@ -48,7 +48,7 @@ public class ExtensionExportResource implements OperationHandler
                    if (option.length == 2)
                    {
                         if (option[0].equals("mop")) {PackageMop packageMop = new PackageMop(option[1], temp);}
-                        else if (option[0].equals("content"))   {PackageContent packageMop = new PackageContent(option[1],resultHandler);}
+                        else if (option[0].equals("content"))   {PackageContent packageContent = new PackageContent(option[1],temp);}
                         else throw new OperationException(OperationNames.EXPORT_RESOURCE, "Invalid option  : " + option.toString());
                    }
                    else throw new OperationException(OperationNames.EXPORT_RESOURCE, "Invalid option  : " + option.toString());
