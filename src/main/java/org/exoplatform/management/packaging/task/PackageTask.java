@@ -42,11 +42,11 @@ public class PackageTask implements ExportTask {
     public void export(OutputStream outputStream) throws IOException
 
     {
-        
+
 
         ZipOutputStream zos = new ZipOutputStream(outputStream);
-    	 
-         browse(file, zos);
+
+        browse(file, zos);
 
         zos.close();
     }
