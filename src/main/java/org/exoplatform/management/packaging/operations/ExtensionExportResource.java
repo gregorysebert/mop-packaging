@@ -41,14 +41,51 @@ public class ExtensionExportResource implements OperationHandler
 			temp.mkdir();
 			tmpFolderPath = temp.getPath();
 			
+			
+			//create folder tree in temp folder :
+			// tmpFolder
+			//	|__WEB-INF
+			//	|	|__web.xml
+			//	|	|__conf
+			// 	|	|	|__mop
+			//	|	|	|	|__portal-configuration.xml
+			//	|	|	|	|__exportMopZip
+			// 	|	|	|__content
+			//	|	|	|	|__wcm-content-configuration.xml
+			//	|	|	|	|__exportContentZip
+			//	|	|	|__configuration.xml
+			
+			
+			//create WEB-INF
+			File webInfFolder=new File(temp.getPath()+"/WEB-INF");
+			webInfFolder.mkdir();
+			
+			//create conf
+			File confFolder=new File(webInfFolder.getPath()+"/conf");
+			confFolder.mkdir();
+			
+			
+			
+			
+			
             for (int i=0; i<options.length;i++)
                 {
                    String[] option = options[i].split(":");
 
                    if (option.length == 2)
                    {
-                        if (option[0].equals("mop")) {PackageMop packageMop = new PackageMop(option[1], temp);}
-                        else if (option[0].equals("content"))   {PackageContent packageMop = new PackageContent(option[1],resultHandler);}
+                        if (option[0].equals("mop")) {
+                        	//create mop
+                			File mopFolder=new File(confFolder.getPath()+"/mop");
+                			mopFolder.mkdir();
+                			PackageMop packageMop = new PackageMop(option[1], mopFolder);
+                        }
+                        else if (option[0].equals("content"))   {
+                        	//create content
+                			File contentFolder=new File(confFolder.getPath()+"/content");
+                			contentFolder.mkdir();
+                        	PackageContent packageContent = new PackageContent(option[1],contentFolder);
+                        }
                         else throw new OperationException(OperationNames.EXPORT_RESOURCE, "Invalid option  : " + option.toString());
                    }
                    else throw new OperationException(OperationNames.EXPORT_RESOURCE, "Invalid option  : " + option.toString());
