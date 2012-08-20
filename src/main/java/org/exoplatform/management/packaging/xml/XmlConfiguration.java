@@ -6,14 +6,14 @@ import org.jibx.runtime.IMarshallingContext;
 import org.exoplatform.container.xml.Component;
 import org.exoplatform.container.xml.Configuration;
 import org.exoplatform.container.xml.ComponentPlugin;
+import org.exoplatform.container.xml.ExternalComponentPlugins;
 import org.exoplatform.container.xml.InitParams;
+import org.exoplatform.container.xml.ObjectParam;
+import org.exoplatform.container.xml.ValueParam;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipOutputStream;
 
 /**
  * Created with IntelliJ IDEA.
@@ -36,9 +36,8 @@ public class XmlConfiguration {
 
     public void addPortalConfiguration(FileOutputStream zos)
     {
-        Component component = new Component();
-        component.setKey("portal-configuration");
-        component.setType("org.exoplatform.portal.config.UserPortalConfigService");
+        ExternalComponentPlugins externalComponentPlugins = new ExternalComponentPlugins();
+        externalComponentPlugins.setTargetComponent("org.exoplatform.portal.config.UserPortalConfigService");
 
         ComponentPlugin componentPlugin = new ComponentPlugin();
         componentPlugin.setName("default.portal.config.user.listener");
@@ -46,17 +45,37 @@ public class XmlConfiguration {
         componentPlugin.setSetMethod("initListener");
         componentPlugin.setDescription("this listener init the portal configuration");
 
+        InitParams initParams = new InitParams();
+
+        ValueParam valueParam = new ValueParam();
+        valueParam.setName("default.portal");
+        valueParam.setValue("default");
+        valueParam.setDescription("The default portal for checking db is empty or not");
+
+        ObjectParam  objectParam = new ObjectParam();
+        objectParam.setName("portal.configuration");
+        objectParam.setType("org.exoplatform.portal.config.NewPortalConfig");
+        objectParam.setDescription("description");
+
+        //objectParam.addProperty("ownerType","portal");
+
+        initParams.addParam(valueParam);
+        initParams.addParam(objectParam);
+
+
+        componentPlugin.setInitParams(initParams);
+
         ArrayList componentPluginsList = new ArrayList();
         componentPluginsList.add(componentPlugin);
 
-        component.setComponentPlugins(componentPluginsList);
+        externalComponentPlugins.setComponentPlugins(componentPluginsList);
 
         Configuration configuration = new Configuration();
-        configuration.addComponent(component);
+        configuration.addExternalComponentPlugins(externalComponentPlugins);
 
         try{
-        //zos.putNextEntry(new ZipEntry(path+"/"+ component.getKey() + ".xml"));
         zos.write(toXML(configuration));
+        zos.close();
         //zos.closeEntry();
         }catch (Exception e) {}
 

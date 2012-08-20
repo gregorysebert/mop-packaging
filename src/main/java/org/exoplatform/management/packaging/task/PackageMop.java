@@ -19,7 +19,7 @@ public class PackageMop {
 	public PackageMop(String zipPath, File tmpFolder) {
 		try {
 			
-            PackagingUtil.extractZip(zipPath, tmpFolder);
+           PackagingUtil.extractZip(zipPath, tmpFolder);
 
             File portalConfig=new File(tmpFolder.getPath()+"/portal-configuration.xml");
             XmlConfiguration xmlConfiguration = new   XmlConfiguration();

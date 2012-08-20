@@ -12,6 +12,8 @@ import org.exoplatform.management.packaging.task.PackageContent;
 import org.exoplatform.management.packaging.task.PackageMop;
 import org.exoplatform.management.packaging.task.PackageTask;
 import org.gatein.management.api.operation.model.ExportResourceModel;
+import org.exoplatform.management.packaging.Util.PackagingUtil;
+
 
 
 
@@ -37,8 +39,15 @@ public class ExtensionExportResource implements OperationHandler
             String[] options = myAttributes.getValue("filter").split(",");
 
             String tempFolder = System.getProperty("java.io.tmpdir");
+
 			File temp = new File(tempFolder + "/exploded-extension");
-			temp.mkdir();
+            if (temp.exists()&& temp.isDirectory())
+            {
+                PackagingUtil.deleteDir(temp);
+            }
+
+            temp = new File(tempFolder + "/exploded-extension");
+            temp.mkdir();
 			tmpFolderPath = temp.getPath();
 			
 			
@@ -54,7 +63,7 @@ public class ExtensionExportResource implements OperationHandler
 			//	|	|	|	|__wcm-content-configuration.xml
 			//	|	|	|	|__exportContentZip
 			//	|	|	|__configuration.xml
-			
+
 			
 			//create WEB-INF
 			File webInfFolder=new File(temp.getPath()+"/WEB-INF");

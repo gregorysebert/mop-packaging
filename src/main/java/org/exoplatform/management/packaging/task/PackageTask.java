@@ -1,8 +1,5 @@
 package org.exoplatform.management.packaging.task;
 
-import org.exoplatform.management.packaging.xml.XmlConfiguration;
-import org.gatein.management.api.operation.ResultHandler;
-import org.gatein.management.api.operation.model.ExportResourceModel;
 import org.gatein.management.api.operation.model.ExportTask;
 
 import java.io.FileInputStream;
@@ -30,12 +27,7 @@ public class PackageTask implements ExportTask {
     @Override
     public String getEntry()
     {
-      return "";
-    }
-
-    protected String getXmlFileName()
-    {
-        return this.file.getName();
+      return "/platform-extension/";
     }
 
 
@@ -50,7 +42,6 @@ public class PackageTask implements ExportTask {
         for (File child : children) {
             browse(child, (ZipOutputStream)outputStream);
 		}
-        //Add xml configuration
 
 
     }
@@ -64,21 +55,23 @@ public class PackageTask implements ExportTask {
 
 		} else {
 			//file is a file
-			byte[] buffer = new byte[2048];
+
+			byte[] buffer = new byte[4096*1024];
 			FileInputStream in = new FileInputStream(currentFile);
 
             // Add ZIP entry to output stream.
-            zos.putNextEntry(new ZipEntry(currentFile.getPath().replace(file.getPath(), "")));
-    
+            zos.putNextEntry(new ZipEntry(this.getEntry()+currentFile.getPath().replace(file.getPath(), "")));
+
             // Transfer bytes from the file to the ZIP file
             int len;
             while ((len = in.read(buffer)) > 0) {
                 zos.write(buffer, 0, len);
             }
-    
+
             // Complete the entry
-            zos.closeEntry();
             in.close();
+            zos.closeEntry();
+
 
 		}
 	}
