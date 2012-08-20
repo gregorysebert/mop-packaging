@@ -8,7 +8,12 @@ import org.exoplatform.container.xml.Configuration;
 import org.exoplatform.container.xml.ComponentPlugin;
 import org.exoplatform.container.xml.ExternalComponentPlugins;
 import org.exoplatform.container.xml.InitParams;
-import org.exoplatform.container.xml.ObjectParam;
+import org.exoplatform.container.xml.ObjectParameter;
+import  org.exoplatform.xml.object.XMLField;
+import  org.exoplatform.xml.object.XMLObject;
+import  org.exoplatform.xml.object.XMLCollection;
+import java.util.Collection;
+
 import org.exoplatform.container.xml.ValueParam;
 
 import java.io.ByteArrayOutputStream;
@@ -52,15 +57,93 @@ public class XmlConfiguration {
         valueParam.setValue("default");
         valueParam.setDescription("The default portal for checking db is empty or not");
 
-        ObjectParam  objectParam = new ObjectParam();
-        objectParam.setName("portal.configuration");
-        objectParam.setType("org.exoplatform.portal.config.NewPortalConfig");
-        objectParam.setDescription("description");
+        // Add portal configuration
 
-        //objectParam.addProperty("ownerType","portal");
+        ObjectParameter  objectParamPortal = new ObjectParameter();
+        objectParamPortal.setName("portal.configuration");
+        objectParamPortal.setDescription("description");
+
+
+        XMLObject xmlObject = new XMLObject();
+        xmlObject.setType("org.exoplatform.portal.config.NewPortalConfig");
+
+        XMLCollection xmlCollection = new XMLCollection();
+        xmlCollection.setType("java.util.HashSet");
+
+        Collection collection = new java.util.HashSet<String>();
+        collection.add("default");
+
+        XMLField xmlField = new XMLField();
+        xmlField.setName("predefinedOwner");
+        xmlField.setCollection(xmlCollection);
+        try {
+            xmlField.setCollectiontValue(collection);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        xmlObject.addField(xmlField);
+
+        xmlField = new XMLField();
+        xmlField.setName("ownerType");
+        xmlField.setString("portal");
+        xmlObject.addField(xmlField);
+
+        xmlField = new XMLField();
+        xmlField.setName("templateLocation");
+        xmlField.setString("war:/conf/mop/default");
+        xmlObject.addField(xmlField);
+
+        try {
+            objectParamPortal.setXMLObject(xmlObject);
+        } catch (Exception e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
+
+
+        // Add group configuration
+
+        ObjectParameter  objectParamGroup = new ObjectParameter();
+        objectParamGroup.setName("group.configuration");
+        objectParamGroup.setDescription("description");
+
+        xmlObject = new XMLObject();
+        xmlObject.setType("org.exoplatform.portal.config.NewPortalConfig");
+
+        xmlCollection = new XMLCollection();
+        xmlCollection.setType("java.util.HashSet");
+
+        collection = new java.util.HashSet<String>();
+        collection.add("/platform/web-contributors");
+
+        xmlField = new XMLField();
+        xmlField.setName("predefinedOwner");
+        xmlField.setCollection(xmlCollection);
+        try {
+            xmlField.setCollectiontValue(collection);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        xmlObject.addField(xmlField);
+
+        xmlField = new XMLField();
+        xmlField.setName("ownerType");
+        xmlField.setString("group");
+        xmlObject.addField(xmlField);
+
+        xmlField = new XMLField();
+        xmlField.setName("templateLocation");
+        xmlField.setString("war:/conf/mop/default");
+        xmlObject.addField(xmlField);
+
+        try {
+            objectParamGroup.setXMLObject(xmlObject);
+        } catch (Exception e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
 
         initParams.addParam(valueParam);
-        initParams.addParam(objectParam);
+        initParams.addParam(objectParamPortal);
+        initParams.addParam(objectParamGroup);
 
 
         componentPlugin.setInitParams(initParams);
